@@ -108,6 +108,19 @@ AddEventHandler("onResourceStart", function (rname)
     CreateTables()
 end)
 
+CreateThread(function ()
+    TriggerEvent("chat:addSuggestion", "/jobmanager", "Apre il menù per la gestione dei multijob")
+    TriggerEvent("chat:addSuggestion", "/setjob1", "Setta un job al giocatore", {
+        { name = "playerId", help = "Id del giocatore"}, { name = "job", help = "Job da settare" }
+    })
+    TriggerEvent("chat:addSuggestion", "/setjob2", "Setta un job al giocatore", {
+        { name = "playerId", help = "Id del giocatore"}, { name = "job", help = "Job da settare" }
+    })
+    TriggerEvent("chat:addSuggestion", "/setjob3", "Setta un job al giocatore", {
+        { name = "playerId", help = "Id del giocatore"}, { name = "job", help = "Job da settare" }
+    })
+end)
+
 ------------------ # ------------------ # ------------------ # ------------------ # ------------------ # ------------------
 
 exports("getJobs", function ()
