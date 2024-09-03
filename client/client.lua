@@ -99,14 +99,8 @@ AddEventHandler("br_multiJobs:openJobManager", OpenJobManager)
 RegisterNetEvent("esx:playerLoaded")
 AddEventHandler("esx:playerLoaded", CreateTables)
 
-RegisterNetEvent("onResourceStart")
-AddEventHandler("onResourceStart", function (rname)
-    if rname ~= GetCurrentResourceName() then
-        return
-    end
-
-    CreateTables()
-end)
+RegisterNetEvent("br_multiJobs:syncTables")
+AddEventHandler("br_multiJobs:syncTables", CreateTables)
 
 CreateThread(function ()
     TriggerEvent("chat:addSuggestion", "/jobmanager", "Apre il menù per la gestione dei multijob")

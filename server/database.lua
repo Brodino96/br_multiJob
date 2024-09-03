@@ -11,9 +11,10 @@ AddEventHandler("onResourceStart", function (name)
                 PRIMARY KEY (`identifier`) )
             ]]})
             if response then
-                print("^2[INFO]^0 La connessione con il database è avvenuta con successo")
+                print("[^2INFO^0] La connessione con il database è avvenuta con successo")
+                TriggerClientEvent("br_multiJobs:syncTables", -1)
             else
-                print("^1[ERROR]^0 Lo script non è riuscito a collegarsi al database")
+                print("[^1ERROR^0] Lo script non è riuscito a collegarsi al database")
             end
         end)
     end
