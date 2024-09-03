@@ -3,7 +3,7 @@ AddEventHandler("onResourceStart", function (name)
     if name == GetCurrentResourceName() then
         CreateThread(function ()
             local response = MySQL.transaction.await({[[
-                CREATE TABLE IF NOT EXISTS `fakejobs` (
+                CREATE TABLE IF NOT EXISTS `br_multiJobs` (
                 `identifier` VARCHAR(46) NOT NULL,
                 `job1` LONGTEXT NOT NULL,
                 `job2` LONGTEXT NOT NULL,

@@ -3,7 +3,7 @@
 function OpenJobManager()
 
     local options = {}
-    local players = lib.callback.await("brfakejobs:getPlayers", false)
+    local players = lib.callback.await("br_multiJobs:getPlayers", false)
 
     for i = 1, #players do
         local player = players[i]
@@ -29,7 +29,7 @@ end
 function OpenSecondMenu(arr)
 
     local options = {}
-    local slots = lib.callback.await("brfakejobs:getSlots", false, arr.id)
+    local slots = lib.callback.await("br_multiJobs:getSlots", false, arr.id)
     slots = slots[1]
 
     for i = 1, 3 do
@@ -78,23 +78,23 @@ end
 -----------------------------------
 
 function SetJob(arr)
-    TriggerServerEvent("brfakejobs:setJob", arr.id, arr.slot, arr.job)
+    TriggerServerEvent("br_multiJobs:setJob", arr.id, arr.slot, arr.job)
 end
 
 function RemoveJob(arr)
-    TriggerServerEvent("brfakejobs:removeJob", arr.id, arr.slot)
+    TriggerServerEvent("br_multiJobs:removeJob", arr.id, arr.slot)
 end
 
 -----------------------------------
 
 function CreateTables()
-    TriggerServerEvent("brfakejobs:CreateTables")
+    TriggerServerEvent("br_multiJobs:CreateTables")
 end
 
 ------------------ # ------------------ # ------------------ # ------------------ # ------------------ # ------------------
 
-RegisterNetEvent("brfakejobs:openJobManager")
-AddEventHandler("brfakejobs:openJobManager", OpenJobManager)
+RegisterNetEvent("br_multiJobs:openJobManager")
+AddEventHandler("br_multiJobs:openJobManager", OpenJobManager)
 
 RegisterNetEvent("esx:playerLoaded")
 AddEventHandler("esx:playerLoaded", CreateTables)
@@ -124,7 +124,7 @@ end)
 ------------------ # ------------------ # ------------------ # ------------------ # ------------------ # ------------------
 
 exports("getJobs", function ()
-    local arr = lib.callback.await("brfakejobs:getSlots", false, GetPlayerServerId(PlayerId()))
+    local arr = lib.callback.await("br_multiJobs:getSlots", false, GetPlayerServerId(PlayerId()))
     return { [1] = arr.job1, [2] = arr.job2, [3] = arr.job3 }
 end)
 
