@@ -23,9 +23,9 @@ local function getPlayerJobs(id)
 end
 
 -- /setjob1 [id] [job]
-local function setJob(id, slot, job)
+local function setJob(id, slot, job, source)
     if not checkJob(job) then
-        return print("Il job inserito non risulta valido")
+        return TriggerClientEvent("ox_lib:notify", source, { type = "error", title = "Il job selezionato non è configurato"})
     end
     local mysqlString = "UPDATE `fakejobs` SET `job"..tostring(slot).."` = ? WHERE `identifier` = ?"
     MySQL.update.await(mysqlString, {job, ESX.GetPlayerFromId(id).getIdentifier()})
@@ -34,9 +34,9 @@ end
 ------------------ # ------------------ # ------------------ # ------------------ # ------------------ # ------------------
 -- Commands
 
-RegisterCommand("setjob1", function (source, args) setJob(args[1], 1, args[2]) end, true)
-RegisterCommand("setjob2", function (source, args) setJob(args[1], 2, args[2]) end, true)
-RegisterCommand("setjob3", function (source, args) setJob(args[1], 3, args[2]) end, true)
+RegisterCommand("setjob1", function (source, args) setJob(args[1], 1, args[2], source) end, true)
+RegisterCommand("setjob2", function (source, args) setJob(args[1], 2, args[2], source) end, true)
+RegisterCommand("setjob3", function (source, args) setJob(args[1], 3, args[2], source) end, true)
 
 RegisterCommand("jobmanager", function (source)
     TriggerClientEvent("brfakejobs:openJobManager", source)
