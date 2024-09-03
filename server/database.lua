@@ -11,9 +11,9 @@ AddEventHandler("onResourceStart", function (name)
                 PRIMARY KEY (`identifier`) )
             ]]})
             if response then
-                print("^2La connessione con il database è avvenuta con successo^0")
+                print("^2[INFO]^0 La connessione con il database è avvenuta con successo")
             else
-                print("^1Lo script non è riuscito a collegarsi al database^0")
+                print("^1[ERROR]^0 Lo script non è riuscito a collegarsi al database")
             end
         end)
     end
