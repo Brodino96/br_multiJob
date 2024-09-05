@@ -38,6 +38,13 @@ local function setJob(id, slot, job, sorgente)
     TriggerClientEvent("ox_lib:notify", sorgente, { type = "success", title = "Job cambiato con successo"})
 end
 
+function CreateRows()
+    local xPlayers = ESX.GetExtendedPlayers()
+    for i = 1, #xPlayers do
+        MySQL.insert.await("INSERT IGNORE INTO `br_multiJobs` (identifier) VALUES (?)", { xPlayers[i].getIdentifier() })
+    end
+end
+
 ------------------ # ------------------ # ------------------ # ------------------ # ------------------ # ------------------
 -- Commands
 
@@ -90,17 +97,6 @@ end)
 RegisterNetEvent("br_multiJobs:CreateTables")
 AddEventHandler("br_multiJobs:CreateTables", function ()
     MySQL.insert.await("INSERT IGNORE INTO `br_multiJobs` (identifier) VALUES (?)", { ESX.GetPlayerFromId(source).getIdentifier() })
-end)
-
-RegisterNetEvent("onResourceStart")
-AddEventHandler("onResourceStart", function (name)
-    if name ~= GetCurrentResourceName() then
-        return
-    end
-    local xPlayers = ESX.GetExtendedPlayers()
-    for i = 1, #xPlayers do
-        MySQL.insert.await("INSERT IGNORE INTO `br_multiJobs` (identifier) VALUES (?)", { xPlayers[i].getIdentifier() })
-    end
 end)
 
 ------------------ # ------------------ # ------------------ # ------------------ # ------------------ # ------------------

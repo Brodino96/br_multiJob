@@ -20,7 +20,7 @@ AddEventHandler("onResourceStart", function (name)
     local response = MySQL.transaction.await({query})
 
     if response then
-        TriggerClientEvent("br_multiJobs:syncTables", -1)
+        CreateRows()
         return print("^0[^2INFO^0] La connessione con il database è avvenuta con successo")
     end
 
