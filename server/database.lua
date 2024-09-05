@@ -4,7 +4,7 @@ AddEventHandler("onResourceStart", function (name)
         return
     end
 
-    local jobs
+    local jobs = ""
     for i = 1, Config.jobNum do
         jobs = jobs.."`job"..i.."` LONGTEXT NOT NULL, "
     end
