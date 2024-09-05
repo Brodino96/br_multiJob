@@ -6,6 +6,9 @@ ESX = exports["es_extended"]:getSharedObject()
 -- Functions
 
 local function checkJob(job)
+    if job == "" then
+        return true
+    end
     for i = 1, #Config.jobs do
         if Config.jobs[i] == job then
             return true
@@ -15,25 +18,24 @@ local function checkJob(job)
 end
 
 local function getPlayerJobs(id)
-    local response = MySQL.query.await("SELECT * FROM `br_multiJobs` WHERE `identifier` = ?", { ESX.GetPlayerFromId(id).getIdentifier() })
+    local response = MySQL.query.await("SELECT * FROM `br_multiJobs` WHERE `identifier` = ?", { ESX.GetPlayerFromId(id).getIdentifier() })[1]
     local arr = {}
 
-    for i = 1, (#response[1] - 1) do
-        arr[i] = response[1][i+1]
+    for i = 1, Config.jobNum do
+        arr[i] = response["job"..i]
     end
+    Debug("GetPlayerJob: ["..id.."] "..json.encode(arr))
     return arr
 end
 
 -- /setjob1 [id] [job]
-local function setJob(id, slot, job, source)
+local function setJob(id, slot, job, sorgente)
     if not checkJob(job) then
-        return TriggerClientEvent("ox_lib:notify", source, { type = "error", title = "Il job selezionato non è configurato"})
+        return TriggerClientEvent("ox_lib:notify", sorgente, { type = "error", title = "Il job selezionato non è configurato"})
     end
     local mysqlString = "UPDATE `br_multiJobs` SET `job"..tostring(slot).."` = ? WHERE `identifier` = ?"
     local response = MySQL.update.await(mysqlString, {job, ESX.GetPlayerFromId(id).getIdentifier()})
-    if response then
-        TriggerClientEvent("ox_lib:notify", source, { type = "success", title = "Job cambiato con successo"})
-    end
+    TriggerClientEvent("ox_lib:notify", sorgente, { type = "success", title = "Job cambiato con successo"})
 end
 
 ------------------ # ------------------ # ------------------ # ------------------ # ------------------ # ------------------
@@ -76,14 +78,29 @@ end)
 -- Events
 
 RegisterNetEvent("br_multiJobs:setJob")
-AddEventHandler("br_multiJobs:setJob", setJob)
+AddEventHandler("br_multiJobs:setJob", function (id, slot, job)
+    setJob(id, slot, job, source)
+end)
 
 RegisterNetEvent("br_multiJobs:removeJob")
-AddEventHandler("br_multiJobs:removeJob", setJob)
+AddEventHandler("br_multiJobs:removeJob", function (id, slot)
+    setJob(id, slot, "", source)
+end)
 
 RegisterNetEvent("br_multiJobs:CreateTables")
 AddEventHandler("br_multiJobs:CreateTables", function ()
     MySQL.insert.await("INSERT IGNORE INTO `br_multiJobs` (identifier) VALUES (?)", { ESX.GetPlayerFromId(source).getIdentifier() })
+end)
+
+RegisterNetEvent("onResourceStart")
+AddEventHandler("onResourceStart", function (name)
+    if name ~= GetCurrentResourceName() then
+        return
+    end
+    local xPlayers = ESX.GetExtendedPlayers()
+    for i = 1, #xPlayers do
+        MySQL.insert.await("INSERT IGNORE INTO `br_multiJobs` (identifier) VALUES (?)", { xPlayers[i].getIdentifier() })
+    end
 end)
 
 ------------------ # ------------------ # ------------------ # ------------------ # ------------------ # ------------------
