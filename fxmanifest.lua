@@ -4,7 +4,7 @@ lua54 "yes"
 
 author "Brodino"
 description "A simple multi job script"
-version "1.0"
+version "1.1"
 
 shared_scripts { "@ox_lib/init.lua", "config.lua", "locales/*" }
 server_scripts { "@oxmysql/lib/MySQL.lua", "server/*", }
