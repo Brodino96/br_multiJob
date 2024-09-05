@@ -16,7 +16,7 @@ function OpenJobManager()
 
     lib.registerContext({
         id = "jobManager",
-        title = "Job Manager",
+        title = L("menu:main_title"),
         canClose = true,
         options = options
     })
@@ -41,7 +41,7 @@ function OpenSecondMenu(arr)
 
     lib.registerContext({
         id = "slotSelector",
-        title = "Job Selector",
+        title = L("menu:slot_title"),
         canClose = true,
         options = options
     })
@@ -99,10 +99,10 @@ RegisterNetEvent("esx:playerLoaded")
 AddEventHandler("esx:playerLoaded", CreateTables)
 
 CreateThread(function ()
-    TriggerEvent("chat:addSuggestion", "/jobmanager", "Opens menu to manage multijobs")
+    TriggerEvent("chat:addSuggestion", "/jobmanager", L("command:jobmanager"))
     for i = 1, Config.jobNum do
-        TriggerEvent("chat:addSuggestion", "/setjob"..i, "Sets a job to the player", {
-            { name = "playerId", help = "Server Id of the player"}, { name = "job", help = "Job to set" }
+        TriggerEvent("chat:addSuggestion", "/setjob"..i, L("command:setjob"), {
+            { name = "playerId", help = L("command:playerId") }, { name = "job", help = L("command:job") }
         })
     end
 end)

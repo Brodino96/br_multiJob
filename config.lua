@@ -1,7 +1,8 @@
 Config = {
     jobNum = 10,
     jobs = { "tuamadre", "tuanonna", "gesooo", "erlupetto", },
-    debugMode = true -- Prints actions in console
+    debugMode = true, -- Prints actions in console
+    locale = "it"
 }
 
 Debug = {
@@ -21,3 +22,9 @@ Debug = {
         end
     end
 }
+
+function L(str)
+    return Locale[Config.locale][str]
+end
+
+Locale = {}
