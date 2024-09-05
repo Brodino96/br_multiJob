@@ -21,8 +21,8 @@ AddEventHandler("onResourceStart", function (name)
 
     if response then
         CreateRows()
-        return Debug.success("La connessione con il database è avvenuta con successo")
+        return Debug.success("Database connection established")
     end
 
-    return Debug.error("Lo script non è riuscito a collegarsi al database")
+    return Debug.error("Couln't connect to the database")
 end)

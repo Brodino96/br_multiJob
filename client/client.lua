@@ -99,10 +99,10 @@ RegisterNetEvent("esx:playerLoaded")
 AddEventHandler("esx:playerLoaded", CreateTables)
 
 CreateThread(function ()
-    TriggerEvent("chat:addSuggestion", "/jobmanager", "Apre il menù per la gestione dei multijob")
+    TriggerEvent("chat:addSuggestion", "/jobmanager", "Opens menu to manage multijobs")
     for i = 1, Config.jobNum do
-        TriggerEvent("chat:addSuggestion", "/setjob"..i, "Setta un job al giocatore", {
-            { name = "playerId", help = "Id del giocatore"}, { name = "job", help = "Job da settare" }
+        TriggerEvent("chat:addSuggestion", "/setjob"..i, "Sets a job to the player", {
+            { name = "playerId", help = "Server Id of the player"}, { name = "job", help = "Job to set" }
         })
     end
 end)

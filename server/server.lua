@@ -32,12 +32,14 @@ end
 local function setJob(id, slot, job, source)
     Debug.working("Setting a new job for player with id ["..id.."]")
     if not checkJob(job) then
-        return TriggerClientEvent("ox_lib:notify", source, { type = "error", title = "Il job selezionato non è configurato"})
+        return TriggerClientEvent("ox_lib:notify", source, {
+            type = "error", title = "The job specified isn't configured"
+        })
     end
     local mysqlString = "UPDATE `br_multiJobs` SET `job"..tostring(slot).."` = ? WHERE `identifier` = ?"
     MySQL.update.await(mysqlString, {job, ESX.GetPlayerFromId(id).getIdentifier()})
     Debug.success("Player with id ["..id.."] job"..slot.." is now: "..job)
-    TriggerClientEvent("ox_lib:notify", source, { type = "success", title = "Job cambiato con successo"})
+    TriggerClientEvent("ox_lib:notify", source, { type = "success", title = "Job changed succesfully"})
 end
 
 function CreateRows()
