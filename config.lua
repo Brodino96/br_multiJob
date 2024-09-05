@@ -7,17 +7,17 @@ Config = {
 Debug = {
     success = function (str)
         if Config.debugMode then
-            print("[^2success?0] "..str)
+            print("[^2SUCCESS^0] "..str)
         end
     end,
     working = function (str)
         if Config.debugMode then
-            print("[^3working^0] "..str)
+            print("[^WORKING^0] "..str)
         end
     end,
     error = function (str)
         if Config.debugMode then
-            print("[^1error^0] "..str)
+            print("[^1ERROR^0] "..str)
         end
     end
 }
