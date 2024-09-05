@@ -4,6 +4,8 @@ AddEventHandler("onResourceStart", function (name)
         return
     end
 
+    Debug.working("Script is trying to connect to database")
+
     local jobs = ""
     for i = 1, Config.jobNum do
         jobs = jobs.."`job"..i.."` LONGTEXT NOT NULL, "
@@ -15,14 +17,12 @@ AddEventHandler("onResourceStart", function (name)
         PRIMARY KEY (`identifier`) )
     ]]
 
-    Debug("Query: "..query)
-
     local response = MySQL.transaction.await({query})
 
     if response then
         CreateRows()
-        return print("^0[^2INFO^0] La connessione con il database è avvenuta con successo")
+        return Debug.success("La connessione con il database è avvenuta con successo")
     end
 
-    return print("^0[^1ERROR^0] Lo script non è riuscito a collegarsi al database")
+    return Debug.error("Lo script non è riuscito a collegarsi al database")
 end)
