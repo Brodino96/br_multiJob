@@ -31,7 +31,7 @@ function OpenSecondMenu(arr)
     local options = {}
     local slots = lib.callback.await("br_multiJobs:getJobs", false, arr.id)
 
-    for i = 1, Config.jobNum do
+    for i = 1, Config.maxJobs do
         options[i] = {
             title = "["..i.."] = "..slots[i],
             onSelect = OpenThirdMenu,
@@ -100,7 +100,7 @@ AddEventHandler("esx:playerLoaded", CreateTables)
 
 CreateThread(function ()
     TriggerEvent("chat:addSuggestion", "/jobmanager", L("command:jobmanager"))
-    for i = 1, Config.jobNum do
+    for i = 1, Config.maxJobs do
         TriggerEvent("chat:addSuggestion", "/setjob"..i, L("command:setjob"), {
             { name = "playerId", help = L("command:playerId") }, { name = "job", help = L("command:job") }
         })

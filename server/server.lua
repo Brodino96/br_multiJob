@@ -21,7 +21,7 @@ local function getPlayerJobs(id)
     local response = MySQL.query.await("SELECT * FROM `br_multiJobs` WHERE `identifier` = ?", { ESX.GetPlayerFromId(id).getIdentifier() })[1]
     local arr = {}
 
-    for i = 1, Config.jobNum do
+    for i = 1, Config.maxJobs do
         arr[i] = response["job"..i]
     end
     Debug.success("Player with id ["..id.."] has: "..json.encode(arr))
@@ -55,7 +55,7 @@ end
 -- Commands
 
 Debug.working("Registering commands")
-for i = 1, Config.jobNum do
+for i = 1, Config.maxJobs do
     RegisterCommand("setjob"..i, function (source, args)
         setJob(args[1], i, args[2], source)
     end, true)

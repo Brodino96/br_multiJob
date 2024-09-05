@@ -7,7 +7,7 @@ AddEventHandler("onResourceStart", function (name)
     Debug.working("Script is trying to connect to database")
 
     local jobs = ""
-    for i = 1, Config.jobNum do
+    for i = 1, Config.maxJobs do
         jobs = jobs.."`job"..i.."` LONGTEXT NOT NULL, "
     end
 
