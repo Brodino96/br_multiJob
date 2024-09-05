@@ -23,8 +23,8 @@ Debug = {
     end
 }
 
+Locale = {}
+
 function L(str)
     return Locale[Config.locale][str]
 end
-
-Locale = {}
