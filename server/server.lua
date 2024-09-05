@@ -43,7 +43,7 @@ local function setJob(id, slot, job, source)
 end
 
 function CreateRows()
-    Debug.working("Creating database rows...")
+    Debug.working("Creating missing database rows...")
     local xPlayers = ESX.GetExtendedPlayers()
     for i = 1, #xPlayers do
         MySQL.insert.await("INSERT IGNORE INTO `br_multiJobs` (identifier) VALUES (?)", { xPlayers[i].getIdentifier() })
@@ -70,7 +70,7 @@ Debug.success("Commands successfully registered")
 -- Callbacks
 
 lib.callback.register("br_multiJobs:getPlayers", function (source)
-    Debug.working("Generating list of all online players requested by id ["..source"]")
+    Debug.working("Generating list of all online players requested by id ["..source.."]")
     local list = {}
     local xPlayers = ESX.GetExtendedPlayers()
 
