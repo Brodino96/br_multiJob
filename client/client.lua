@@ -30,7 +30,7 @@ function OpenSecondMenu(arr)
 
     local options = {}
     local slots = lib.callback.await("br_multiJobs:getJobs", false, arr.id)
-    Debug(json.encode(slots))
+    Debug("My Jobs: "..json.encode(slots))
 
     for i = 1, Config.jobNum do
         options[i] = {
