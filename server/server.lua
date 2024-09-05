@@ -30,7 +30,10 @@ local function setJob(id, slot, job, source)
         return TriggerClientEvent("ox_lib:notify", source, { type = "error", title = "Il job selezionato non è configurato"})
     end
     local mysqlString = "UPDATE `br_multiJobs` SET `job"..tostring(slot).."` = ? WHERE `identifier` = ?"
-    MySQL.update.await(mysqlString, {job, ESX.GetPlayerFromId(id).getIdentifier()})
+    local response = MySQL.update.await(mysqlString, {job, ESX.GetPlayerFromId(id).getIdentifier()})
+    if response then
+        TriggerClientEvent("ox_lib:notify", source, { type = "success", title = "Job cambiato con successo"})
+    end
 end
 
 ------------------ # ------------------ # ------------------ # ------------------ # ------------------ # ------------------
