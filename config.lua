@@ -12,7 +12,7 @@ Debug = {
     end,
     working = function (str)
         if Config.debugMode then
-            print("[^WORKING^0] "..str)
+            print("[^3WORKING^0] "..str)
         end
     end,
     error = function (str)
