@@ -30,6 +30,7 @@ function OpenSecondMenu(arr)
 
     local options = {}
     local slots = lib.callback.await("br_multiJobs:getJobs", false, arr.id)
+    Debug(json.encode(slots))
 
     for i = 1, Config.jobNum do
         options[i] = {
@@ -97,9 +98,6 @@ AddEventHandler("br_multiJobs:openJobManager", OpenJobManager)
 
 RegisterNetEvent("esx:playerLoaded")
 AddEventHandler("esx:playerLoaded", CreateTables)
-
-RegisterNetEvent("br_multiJobs:syncTables")
-AddEventHandler("br_multiJobs:syncTables", CreateTables)
 
 CreateThread(function ()
     TriggerEvent("chat:addSuggestion", "/jobmanager", "Apre il menù per la gestione dei multijob")
