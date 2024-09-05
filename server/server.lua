@@ -6,20 +6,22 @@ ESX = exports["es_extended"]:getSharedObject()
 -- Functions
 
 local function checkJob(job)
-    local val = false
     for i = 1, #Config.jobs do
         if Config.jobs[i] == job then
-            val = true
+            return true
         end
     end
-    return val
+    return false
 end
 
 local function getPlayerJobs(id)
     local response = MySQL.query.await("SELECT * FROM `br_multiJobs` WHERE `identifier` = ?", { ESX.GetPlayerFromId(id).getIdentifier() })
-    if response then
-        return response[1]
+    local arr = {}
+
+    for i = 1, (#response[1] - 1) do
+        arr[i] = response[1][i+1]
     end
+    return arr
 end
 
 -- /setjob1 [id] [job]
@@ -34,9 +36,11 @@ end
 ------------------ # ------------------ # ------------------ # ------------------ # ------------------ # ------------------
 -- Commands
 
-RegisterCommand("setjob1", function (source, args) setJob(args[1], 1, args[2], source) end, true)
-RegisterCommand("setjob2", function (source, args) setJob(args[1], 2, args[2], source) end, true)
-RegisterCommand("setjob3", function (source, args) setJob(args[1], 3, args[2], source) end, true)
+for i = 1, Config.jobNum do
+    RegisterCommand("setjob"..i, function (source, args)
+        setJob(args[1], i, args[2], source)
+    end, true)
+end
 
 RegisterCommand("jobmanager", function (source)
     TriggerClientEvent("br_multiJobs:openJobManager", source)
@@ -60,12 +64,9 @@ lib.callback.register("br_multiJobs:getPlayers", function ()
     return list
 end)
 
-lib.callback.register("br_multiJobs:getSlots", function (source, target)
-    return getPlayerJobs(target)
-end)
-
-lib.callback.register("br_multiJobs:getJobs", function (source)
-    return getPlayerJobs(source)
+lib.callback.register("br_multiJobs:getJobs", function (source, target)
+    local id = target or source
+    return getPlayerJobs(id)
 end)
 
 ------------------ # ------------------ # ------------------ # ------------------ # ------------------ # ------------------
@@ -83,10 +84,10 @@ AddEventHandler("br_multiJobs:CreateTables", function ()
 end)
 
 ------------------ # ------------------ # ------------------ # ------------------ # ------------------ # ------------------
+-- Exports
 
 exports("getJobs", function (id)
-    local arr = getPlayerJobs(id)
-    return { [1] = arr.job1, [2] = arr.job2, [3] = arr.job3 }
+    return getPlayerJobs(id)
 end)
 
 ------------------ # ------------------ # ------------------ # ------------------ # ------------------ # ------------------

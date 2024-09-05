@@ -29,14 +29,13 @@ end
 function OpenSecondMenu(arr)
 
     local options = {}
-    local slots = lib.callback.await("br_multiJobs:getSlots", false, arr.id)
-    slots = slots[1]
+    local slots = lib.callback.await("br_multiJobs:getJobs", false, arr.id)
 
-    for i = 1, 3 do
+    for i = 1, Config.jobNum do
         options[i] = {
-            title = "["..i.."] = "..slots["job"..tostring(i)],
+            title = "["..i.."] = "..slots[i],
             onSelect = OpenThirdMenu,
-            args = { id = arr.id, job = slots["job"..tostring(i)], slot = i },
+            args = { id = arr.id, job = slots[i], slot = i },
         }
     end
 
@@ -104,22 +103,17 @@ AddEventHandler("br_multiJobs:syncTables", CreateTables)
 
 CreateThread(function ()
     TriggerEvent("chat:addSuggestion", "/jobmanager", "Apre il menù per la gestione dei multijob")
-    TriggerEvent("chat:addSuggestion", "/setjob1", "Setta un job al giocatore", {
-        { name = "playerId", help = "Id del giocatore"}, { name = "job", help = "Job da settare" }
-    })
-    TriggerEvent("chat:addSuggestion", "/setjob2", "Setta un job al giocatore", {
-        { name = "playerId", help = "Id del giocatore"}, { name = "job", help = "Job da settare" }
-    })
-    TriggerEvent("chat:addSuggestion", "/setjob3", "Setta un job al giocatore", {
-        { name = "playerId", help = "Id del giocatore"}, { name = "job", help = "Job da settare" }
-    })
+    for i = 1, Config.jobNum do
+        TriggerEvent("chat:addSuggestion", "/setjob"..i, "Setta un job al giocatore", {
+            { name = "playerId", help = "Id del giocatore"}, { name = "job", help = "Job da settare" }
+        })
+    end
 end)
 
 ------------------ # ------------------ # ------------------ # ------------------ # ------------------ # ------------------
 
 exports("getJobs", function ()
-    local arr = lib.callback.await("br_multiJobs:getSlots", false, GetPlayerServerId(PlayerId()))
-    return { [1] = arr.job1, [2] = arr.job2, [3] = arr.job3 }
+    return lib.callback.await("br_multiJobs:getJobs", false)
 end)
 
 ------------------ # ------------------ # ------------------ # ------------------ # ------------------ # ------------------
